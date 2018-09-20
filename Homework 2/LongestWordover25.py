@@ -12,9 +12,9 @@ frequency = sorted(frequency.items(), key=lambda x: x[1], reverse=False)
 longestWord = ""
 
 for word in frequency:
-    if (len(word[0]) > len(longestWord)):
+    if (len(word[0]) > len(longestWord) and word[1] > 25):
         longestWord = word[0]
-print "The longest word is: " , longestWord, "With a length of: ", len(longestWord)
+print "The longest word that occurs >25 times is: ", longestWord, "With a length of: ", len(longestWord)
 
 
 
