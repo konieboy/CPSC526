@@ -1,24 +1,40 @@
-#!/usr/bin/python
+from collections import Counter
+from itertools import cycle
+import string
+import re
 
-import sys
+# Read chapter 8
+f = open("ulysses.txt","r", encoding='utf8')
+contents = f.read()
 
-if len(sys.argv) != 4:
-  print ("Usage: ./xor1 infile outfile k")
-  print ("k is a one-character XOR key")
-  print ("For hexadecimal keys, use $'\\x01'")
-  exit()
+#contents = contents.replace('\n',' ')
+#"".join(contents.split())
 
-f = open(str(sys.argv[1]), "rb")
-g = open(str(sys.argv[2]), "a")
-k = ord(sys.argv[3])
+# Read encrypted text as a byte array
+ByteDataT1 = []
+with open("transmission1", "rb") as b:
+    byte = b.read(1)
+    while byte:
+        ByteDataT1+=byte
+        byte = b.read(1)
 
-try:
-    byte = f.read(1)
-    while byte != "":
-        xbyte = ord(byte) ^ k
-        g.write(chr(xbyte))
-        byte = f.read(1)
-finally:
-    f.close()
+#print(ByteDataT1)
+# Xor the two files together - https://stackoverflow.com/questions/2612720/how-to-do-bitwise-exclusive-or-of-two-strings-in-python
 
-g.close()
+key = [ chr(ord(a) ^ b) for (a,b) in zip(contents, ByteDataT1)]
+print(key[:30])
+
+# Key is snowboard!
+
+# Read trans 2
+ByteDataT2 = []
+with open("transmission2", "rb") as b2:
+    byte2 = b2.read(1)
+    while byte2:
+        ByteDataT2+=byte2
+        byte2 = b2.read(1)
+
+unencryptedText = [ chr(ord(a) ^ b) for (a,b) in zip(cycle("snowboard"), ByteDataT2)]
+print(unencryptedText[:30])
+
+# Text is from chapter 13!
