@@ -1,0 +1,6 @@
+# Encoding Algorithm
+
+message = "Some message"
+IV = getIV()
+key = getKey()
+# AES 256 so
