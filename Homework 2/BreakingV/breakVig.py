@@ -28,7 +28,7 @@ for i in range(1 , len(decryptText)):
     key, foundCount = counter.most_common(1)[0]
     #print (counter.most_common(1)[0])
     # ignore low Probability results
-    if (foundCount <= 1): 
+    if (foundCount <= 3): 
         break; 
     print ("Test length:", i, " \tTimes found:", foundCount, "\t\tKey:",  key)
 
