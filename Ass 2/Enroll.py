@@ -1,31 +1,32 @@
 # Enroll Program
+# Libraries used: 
+# PyCryptodome for AES encryption
+# argon2_cffi used for hasing in argon2 https://pypi.org/project/argon2_cffi/
+
 import sys
 from argon2 import PasswordHasher
 import json
-
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 from Crypto.Util import Padding
 from base64 import b64encode, b64decode
 
-# Global Vars
+#-- Global Vars --#
 ph = PasswordHasher()
 mode = AES.MODE_CBC
 bs = AES.block_size
-key = "wOSAAiJgPNktvoZ7draMW1TZPYCip2IM".encode('utf-8')
+# The IV and Key would be shared ahead of time
+key = "wOSAAiJgPNktvoZ7draMW1TZPYCip2IM".encode('utf-8') # Key randomly generated from https://randomkeygen.com/
 iv = key[8:bs+8]
 
 def saveEncryptedData(plaintext):
     body = Padding.pad(json.dumps(plaintext).encode('utf-8'), bs)
     cipher = AES.new(key, mode, iv)
-    #key = b64encode(key).decode('utf-8')
     cipherText = b64encode(cipher.encrypt(body)).decode('utf-8')
 
     dataFile = open("encryptedData", "w")
     dataFile.write(cipherText)
     dataFile.close()
-
-    # return cipherText
 
 def getDatabaseInPlaintext():
     # Open and read encrypted data
@@ -64,35 +65,26 @@ def filterWeakPasswords(password):
             sys.exit(-1)
 
 def checkForExistingUser(userName):
-    # with open('data.json', encoding='utf-8') as data_file:
-    #     data = json.loads(data_file.read())
-    # data_file.close()
     data = json.loads(getDatabaseInPlaintext())
     print (data)
     i = 0
     while (i < (len(data["database"]))):
-        #print (data["database"][i]["username"])
         if (userName == data["database"][i]["username"]):
             print("Rejected\n")
             sys.exit(-1)
 
         i += 1
-    # REMNANT REMOVAL - Delete the unencrypted data one we no longer need it
+    # REMNANT REMOVAL - Delete the unencrypted data once we no longer need it
     del data 
     
 
 def addUser(userName, password): 
-    # with open('data.json', encoding='utf-8') as data_file:
-    #     data = json.loads(data_file.read())
-    # data_file.close()
     data = json.loads(getDatabaseInPlaintext())   
     passHash = ph.hash(password)
     data["database"].append({'username':userName, 'hash':passHash})
-
     saveEncryptedData(data)
-    # with open("data.json", "w") as write_file:
-    #     json.dump(data, write_file)
-    # write_file.close()    
+    # REMNANT REMOVAL - Delete the unencrypted data once we no longer need it
+    del data
 
 # *** START *** #
  # Make sure that
@@ -116,46 +108,3 @@ addUser(userName, password)
 print ("Accepted\n")
 sys.exit(0)
 
-# # with open("data.json", "w") as write_file:
-# #     json.dump(data, write_file)
-
-# # Key randomly generated from https://randomkeygen.com/
-
-# key = "wOSAAiJgPNktvoZ7draMW1TZPYCip2IM".encode('utf-8')
-# body = Padding.pad(json.dumps(data).encode('utf-8'), bs)
-# iv = key[8:bs+8]
-
-# cipher = AES.new(key, mode, iv)
-# #key = b64encode(key).decode('utf-8')
-# body = b64encode(cipher.encrypt(body)).decode('utf-8')
-# #iv = b64encode(iv).decode('utf-8')
-
-# # result = "%s.%s.%s" % (key, body, iv)
-# # print(result)
-
-# # with open("encryptedData.bin", "w") as write_file:
-# #    write(body, write_file)
-   
-# dataFile = open("encryptedData.txt", "w")
-# dataFile.write(body)
-# dataFile.close()
-
-# # decrypting
-# # key, body, iv = result.split(".")
-# f = open("encryptedData.txt","r")
-# encyptedData = f.read()
-# f.close()
-
-    
-# #print (encyptedData)
-# #print (body)
-
-# #key = b64decode(key.encode('utf-8'))
-# encyptedData = b64decode(encyptedData.encode('utf-8'))
-# #iv = b64decode(iv.encode('utf-8'))
-
-# cipher = AES.new(key, mode, iv)
-
-# plainText = Padding.unpad(cipher.decrypt(encyptedData), bs).decode('utf-8')
-
-# print (plainText)
