@@ -6,9 +6,9 @@ import json
 ph = PasswordHasher()
 
 # *** START *** #
-if (len(sys.argv) < 3):
-    print ("Rejected arg length")
-    sys.exit()
+if not (len(sys.argv) == 3):
+    print ("Rejected\n")
+    sys.exit(-1)
 
 userName = sys.argv[1]
 password = sys.argv[2]
@@ -29,7 +29,7 @@ while (i < (len(data["database"]))):
 
 if not (usernameFound):
     print ("No username In Database")
-    sys.exit()
+    sys.exit(-1)
 
 # Check that hashed password works
 hashedPass = data["database"][i]["hash"]
