@@ -19,6 +19,7 @@ bs = AES.block_size
 key = "wOSAAiJgPNktvoZ7draMW1TZPYCip2IM".encode('utf-8') # Key randomly generated from https://randomkeygen.com/
 iv = key[8:bs+8]
 
+# Save the database as an AES CBC encrypted file
 def saveEncryptedData(plaintext):
     body = Padding.pad(json.dumps(plaintext).encode('utf-8'), bs)
     cipher = AES.new(key, mode, iv)
@@ -28,6 +29,7 @@ def saveEncryptedData(plaintext):
     dataFile.write(cipherText)
     dataFile.close()
 
+# Read encrypted database as plaintext
 def getDatabaseInPlaintext():
     # Open and read encrypted data
     f = open("encryptedData","r")
@@ -39,6 +41,7 @@ def getDatabaseInPlaintext():
     plainText = Padding.unpad(cipher.decrypt(encyptedData), bs).decode('utf-8')
     return plainText
 
+# Filter out weak passwords. Program will end if the password is found to be weak
 def filterWeakPasswords(password):
     # Read word file into list
     lines = [line.rstrip('\n') for line in open('words.txt')]
@@ -64,9 +67,10 @@ def filterWeakPasswords(password):
             print("Rejected\n")
             sys.exit(-1)
 
+# Check the database for a specific username
+# Quits the program if the username is already found in the database
 def checkForExistingUser(userName):
     data = json.loads(getDatabaseInPlaintext())
-    print (data)
     i = 0
     while (i < (len(data["database"]))):
         if (userName == data["database"][i]["username"]):
@@ -77,7 +81,7 @@ def checkForExistingUser(userName):
     # REMNANT REMOVAL - Delete the unencrypted data once we no longer need it
     del data 
     
-
+# Add user to the database
 def addUser(userName, password): 
     data = json.loads(getDatabaseInPlaintext())   
     passHash = ph.hash(password)
@@ -107,4 +111,3 @@ addUser(userName, password)
 # User added to system
 print ("Accepted\n")
 sys.exit(0)
-
