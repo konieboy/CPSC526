@@ -1,0 +1,92 @@
+CONNECTED(00000003)
+---
+Certificate chain
+ 0 s:/C=US/ST=California/L=San Francisco/O=Fastly, Inc./CN=twitch.map.fastly.net
+   i:/C=BE/O=GlobalSign nv-sa/CN=GlobalSign CloudSSL CA - SHA256 - G3
+ 1 s:/C=BE/O=GlobalSign nv-sa/CN=GlobalSign CloudSSL CA - SHA256 - G3
+   i:/C=BE/O=GlobalSign nv-sa/OU=Root CA/CN=GlobalSign Root CA
+---
+Server certificate
+-----BEGIN CERTIFICATE-----
+MIIHAzCCBeugAwIBAgIMB0CinPqxAPM08uXlMA0GCSqGSIb3DQEBCwUAMFcxCzAJ
+BgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMS0wKwYDVQQDEyRH
+bG9iYWxTaWduIENsb3VkU1NMIENBIC0gU0hBMjU2IC0gRzMwHhcNMTgwNzEwMjIz
+ODU5WhcNMTkwNzExMjIzODU5WjBxMQswCQYDVQQGEwJVUzETMBEGA1UECAwKQ2Fs
+aWZvcm5pYTEWMBQGA1UEBwwNU2FuIEZyYW5jaXNjbzEVMBMGA1UECgwMRmFzdGx5
+LCBJbmMuMR4wHAYDVQQDDBV0d2l0Y2gubWFwLmZhc3RseS5uZXQwggEiMA0GCSqG
+SIb3DQEBAQUAA4IBDwAwggEKAoIBAQCi7RxiLCFI7DqXF3V2wE3eM7UgwhQNKKTN
+tvRGrB7j3ZOugr4I5NXVw61SWVsnyuRyDl2/EJnW/a6APGiPs/09baGRiT+hQCf9
+5v5WnI0Qm7mtIkQxxwX6O4S+VXjCH7ccl4rGf7GV2tHOD4Bi6Iz95CTdStlJgPbc
+N3JEMFxrtq7rIDbNfK+hvr2nve3yEQeswLlHT2p0h4B9b44FCYj2Xyo7/WrWJbVD
+nUBJor9JFJsX3R1NMFpBhyuXNKFAz0dv/A/+KqXYNu+gCBSWhavpMub8yZRt/ij2
+o6eh0BMnI99sAwlrwSPuLi0oujYU0PfEI2fjIB22ZNNlz1r8O1nXAgMBAAGjggOz
+MIIDrzAOBgNVHQ8BAf8EBAMCBaAwgYoGCCsGAQUFBwEBBH4wfDBCBggrBgEFBQcw
+AoY2aHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvY2xvdWRzc2xz
+aGEyZzMuY3J0MDYGCCsGAQUFBzABhipodHRwOi8vb2NzcDIuZ2xvYmFsc2lnbi5j
+b20vY2xvdWRzc2xzaGEyZzMwVgYDVR0gBE8wTTBBBgkrBgEEAaAyARQwNDAyBggr
+BgEFBQcCARYmaHR0cHM6Ly93d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8w
+CAYGZ4EMAQICMAkGA1UdEwQCMAAwggFGBgNVHREEggE9MIIBOYIVdHdpdGNoLm1h
+cC5mYXN0bHkubmV0ghsqLmZhc3RseS5saXZlLmhscy50dHZudy5uZXSCCyouanR2
+bncubmV0ggsqLmp1c3Rpbi50doILKi50dHZudy5uZXSCEyoudHdpdGNoLXNoYWRv
+dy5uZXSCCyoudHdpdGNoLnR2ghYqLnR3aXRjaGNkbi1zaGFkb3cubmV0ghgqLnR3
+aXRjaGNkbi1zdGFnaW5nLnRlY2iCDyoudHdpdGNoY2RuLm5ldIIPKi50d2l0Y2hj
+b24uY29tghYqLnR3aXRjaHN2Yy1zaGFkb3cubmV0ghgqLnR3aXRjaHN2Yy1zdGFn
+aW5nLnRlY2iCDyoudHdpdGNoc3ZjLm5ldIIYZmFzdGx5LnZvZC5obHMudHR2bncu
+bmV0ggl0d2l0Y2gudHYwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMB0G
+A1UdDgQWBBSBguIvHZL13WOjxxyj7SRT4WpWzjAfBgNVHSMEGDAWgBSpK4fhziRH
+Oxu/z4U3AlWdDZRY5jCCAQIGCisGAQQB1nkCBAIEgfMEgfAA7gB1AFWB1MIWkDYB
+SuoLm1c8U/DA5Dh4cCUIFy+jqh0HE9MMAAABZIZZEBcAAAQDAEYwRAIgRGX6zhps
+/fFoNRQ70v5cDMetH8XU8urVtwSujGnyBewCIG4eQZYW5HIXvCciFVilk6mBNxJN
+I//5LIOmJa9wti2KAHUApLkJkLQYWBSHuxOizGdwCjw1mAT5G9+443fNDsgN3BAA
+AAFkhlkQIAAABAMARjBEAiBk6GHURL+1ouayMSGVyztfo2DaFxRbAbFO616Yi0dY
+MwIgE2AFkvRTZT/XsPuHycQERSyNKsveIFYDVMsq3u/LTaQwDQYJKoZIhvcNAQEL
+BQADggEBAActHla9U8onxlyt1bMN7CUTTlrjMFAuYdEIfqfS8LtxdAjaGG3pbhb8
+dIjl5QOURNGAJmNoACQbR5IckEHE+c57OMURmpkkdnGDqvtxr9nFeHDIEEp39fhg
+mFzCMTIDYk7zgLYAzv8rnjrtefTi9nlUqjTMaSZ/my5E8cEqQaBSk0rDPODwCJlD
+piCh1XLjnDhHuEAkbgCR2MC3gRnczESryB9OLXISwFZAFrI9nyDynykBS1uutkKp
+NP+B5CZ4V/A8+m2qI+DE0KvcLYsp8q9pULKufXgk1tVCjA5v6VtpAoh1HX6oNQbh
+zFVHBaoEEhiO3bIeV+mUZw7fN+L/37w=
+-----END CERTIFICATE-----
+subject=/C=US/ST=California/L=San Francisco/O=Fastly, Inc./CN=twitch.map.fastly.net
+issuer=/C=BE/O=GlobalSign nv-sa/CN=GlobalSign CloudSSL CA - SHA256 - G3
+---
+No client certificate CA names sent
+Peer signing digest: SHA512
+Server Temp Key: X25519, 253 bits
+---
+SSL handshake has read 3594 bytes and written 317 bytes
+Verification: OK
+---
+New, TLSv1.2, Cipher is ECDHE-RSA-AES128-GCM-SHA256
+Server public key is 2048 bit
+Secure Renegotiation IS supported
+Compression: NONE
+Expansion: NONE
+No ALPN negotiated
+SSL-Session:
+    Protocol  : TLSv1.2
+    Cipher    : ECDHE-RSA-AES128-GCM-SHA256
+    Session-ID: 6E0DC4DDA27C8B935DE70F135F7E0F33623D6C1295FEA34168E40EB8D95EA5FA
+    Session-ID-ctx: 
+    Master-Key: 46B59861E91C1DE8275AAD0220DFE5F27C81B364E76077BD418FAB5450D94FB5F8229B5ADC637C97E0FC2D29F07683AE
+    PSK identity: None
+    PSK identity hint: None
+    SRP username: None
+    TLS session ticket lifetime hint: 7200 (seconds)
+    TLS session ticket:
+    0000 - fc e4 d0 e3 18 3e f4 75-40 c5 b0 c4 24 47 55 94   .....>.u@...$GU.
+    0010 - 48 4c 6c fa 67 4a 8b 62-b3 da c3 d7 db 65 3f 83   HLl.gJ.b.....e?.
+    0020 - 42 1a 63 2a 21 21 43 b4-f9 f8 58 ba 12 b0 37 94   B.c*!!C...X...7.
+    0030 - 80 3d e9 21 2c 5c 3f 2e-82 a3 cf 9c 77 28 9f 39   .=.!,\?.....w(.9
+    0040 - 45 15 60 0f ee b5 0d fe-3f cb c7 3c 63 f4 d7 35   E.`.....?..<c..5
+    0050 - 17 fd 92 72 6f 3a 5f 46-47 2d 5b a3 a0 20 35 34   ...ro:_FG-[.. 54
+    0060 - 7b b2 cd af 51 0a 1d 20-04 8f e2 76 74 cf 97 6c   {...Q.. ...vt..l
+    0070 - 80 87 f8 9f ed cf b4 46-c8 49 6a 5a bb c6 17 d1   .......F.IjZ....
+    0080 - 6a 5b 1d fe 73 11 9c 65-09 6d 2a ee bb 41 1f b8   j[..s..e.m*..A..
+    0090 - f8 13 56 af f7 b5 39 6e-fe f2 d0 3e 3c 48 b9 8f   ..V...9n...><H..
+
+    Start Time: 1541186009
+    Timeout   : 7200 (sec)
+    Verify return code: 0 (ok)
+    Extended master secret: yes
+---
