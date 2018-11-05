@@ -7,6 +7,8 @@ from bs4.dammit import EncodingDetector
 import re
 import requests
 
+from collections import Counter
+
 import subprocess
 import urllib2
 import json
@@ -39,6 +41,8 @@ badUrl = 0
 
 goodURLs = []
 
+
+
 for url in cleanUrlList:
     print (url)
     r = requests.get("http://" + url)   
@@ -50,8 +54,6 @@ for url in cleanUrlList:
         goodURLs.append(url) # only keep working links for later
     else:
         badUrl +=1
-        
-
 
 print ("Total good URLs: " , goodUrl)
 print ("Total bad URLs: " , badUrl)
@@ -81,13 +83,63 @@ for url in goodURLs:
 
 print ("Total TLS: " , TLSCount)
 print ("Total Non TLS: " , NonTLSCount)
-if (NonTLSCount > 0):
-    print ("Percentage of links that offer TLS: " , (TLSCount/NonTLSCount)*100)
-else:
-    print ("Percentage of links that offer TLS: 100%")
+print ("Percentage of links that offer TLS: " + str((TLSCount/(NonTLSCount + TLSCount)*100)) + "%")
 
 
+print ("Percentage of links that offer TLS: 100%")
 
+i = 0
+issuers = []
+for url in goodURLs:
+    bashCommand = "echo \"Q\"| timeout 10 openssl s_client -connect " + url +":443" 
+    cmd = bashCommand
+    ps = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+    output = ps.communicate()[0]
+
+    output = output.split()
+    # Scrape out issuer information
+    for i in range(len(output)):
+        #print output
+        #break
+        if "issuer" in output[i]:
+            print (url + " uses: " + output[i])        
+            issuers.append(output[i])
+
+print("List of most popular issuers:")            
+print(Counter(issuers))
+          
+
+i = 0
+expirePast2020 = 0
+expireBefore2020 = 0
+
+# Check if cert expires past 2020
+
+for url in goodURLs:
+    bashCommand = "echo \"Q\"| timeout 10 openssl s_client -connect " + url +":443 >file.pem" 
+    cmd = bashCommand
+    ps = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+    output = ps.communicate()[0]
+
+    # Read cert
+    bashCommand = "openssl x509 -enddate -noout -in file.pem" 
+    cmd = bashCommand
+    ps = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+    output = ps.communicate()[0]
+    output = output[:-5]
+    output= output[-4:]
+    #print (output)
+
+    # some error reading cert if TIFI
+    if (output != "TIFI" and int(output) >= 2020):
+        expirePast2020 += 1
+    else:
+        expireBefore2020 +=1
+        
+print ("Total expire 2020 or later: " , expirePast2020)
+print ("Total expire before 2020: " , expireBefore2020)
+
+print ("Percentage of links that expire 2020 or later: " , ((expirePast2020/float(expirePast2020 + expireBefore2020))*100) , "%")
 #print (res)
 #print (output)
 
