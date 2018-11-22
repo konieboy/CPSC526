@@ -12,7 +12,8 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-#define PORT "3490"  // the port users will be connecting to
+// User ID is 1013 5143
+#define PORT "35143"  // the port users will be connecting to
 
 #define BACKLOG 20     // how many pending connections queue will hold
 
@@ -109,12 +110,24 @@ int main(void)
 
     // - Wait for connections to come in -
     while(1) {  // main accept() loop
+
+        //////////
+        //////////
+
         sin_size = sizeof their_addr;
         new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &sin_size);
         if (new_fd == -1) {
             perror("accept");
             continue; // Cause next iteration of the loop
         }
+        else
+        {
+            printf("Found the client");
+            fflush(stdout);
+            sleep(30); // Sleep in secconds for some reason 
+        }
+    
+
 
         inet_ntop(their_addr.ss_family,
             get_in_addr((struct sockaddr *)&their_addr),

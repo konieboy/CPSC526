@@ -10,7 +10,7 @@
 
 #include <arpa/inet.h>
 
-#define PORT "3490" // the port client will be connecting to 
+#define PORT "35143" // the port client will be connecting to 
 
 #define MAXDATASIZE 100 // max number of bytes we can get at once 
 
@@ -62,6 +62,18 @@ int main(int argc, char *argv[])
             continue;
         }
 
+        struct sockaddr_in localaddr;
+        // Bind to a specific network interface
+        // (this is unusual, as you normally do not want a specific
+        //  port for the client, but we have a specific server in
+        //  this case that will not accept connects unless its on
+        //  a specific port )
+        localaddr.sin_family = AF_INET;
+        localaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+        localaddr.sin_port = htons(1234);  // Any local port will do
+        bind(sockfd, (struct sockaddr *)&localaddr, sizeof(localaddr));
+
+
         if (connect(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
             close(sockfd);
             perror("client: connect");
@@ -75,6 +87,9 @@ int main(int argc, char *argv[])
         fprintf(stderr, "client: failed to connect\n");
         return 2;
     }
+
+
+
 
     inet_ntop(p->ai_family, get_in_addr((struct sockaddr *)p->ai_addr),
             s, sizeof s);
