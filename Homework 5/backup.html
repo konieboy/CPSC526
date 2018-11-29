@@ -27,15 +27,25 @@ function eraseCookie(name) {
 
 function run ()
 {
-    setCookie('Bobs','testcookie2',7);
+    //  setCookie('test','testcookie2',7);
+    // var i = document.createElement("img");
+    // i.src = "file:///home/ugc/kmwisnie/Desktop/Cpsc%20526/Homework%205/cookie.html";
+
+    // var x = getCookie('secret');
+    // document.write(x);
+
+    // var img = new Image();
+    // img.src = "file:///home/ugc/kmwisnie/Desktop/Cpsc%20526/Homework%205/cookie.html/c="+escape(document.cookie);
+    // document.getElementById("d").textContent = document.cookie;
+    // document.write(document.cookie);
+    setCookie('test','testcookie2',7);
     var i = document.createElement("img");
     i.src = "file:///home/ugc/kmwisnie/Desktop/Cpsc%20526/Homework%205/cookie.html";
 
     var x = getCookie('secret');
     document.write(x);
 
-    var img = new Image();
-    img.src = "file:///home/ugc/kmwisnie/Desktop/Cpsc%20526/Homework%205/cookie.html/c="+escape(document.cookie);
+
 }
         </script>
     </head>
@@ -44,6 +54,7 @@ function run ()
         <button onclick="run()">
                 Click to show secret
         </button>
+
         Your cookie is <div id="d"></div>
     </body>
 </html>
