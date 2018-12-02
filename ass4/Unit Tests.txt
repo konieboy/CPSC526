@@ -1,0 +1,8 @@
+1. allow
+2. deney
+3. unspecified
+4. UDP
+5. TCP
+6. Wildcard port
+7. Wildcard IP
+8. No rules

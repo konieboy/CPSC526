@@ -1,0 +1,1 @@
+{"database": [{"username": "TestUser1", "hash": "TestHash1"}, {"username": "TestUser2", "hash": "TestHash2"}, {"username": "TestUser3", "hash": "TestHash2"}, {"username": "TestUser4", "password": "$argon2id$v=19$m=102400,t=2,p=8$erHr3DtFHzBaCRkPsAzF9Q$rM55mwAR5eZP2xgMFTTqjw"}]}
