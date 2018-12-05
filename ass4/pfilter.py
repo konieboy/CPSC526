@@ -4,8 +4,13 @@ from base64 import b64encode, b64decode
 import binascii
 from struct import *
 
+# Packet reading from https://www.binarytides.com/python-packet-sniffer-code-linux/
 
-# https://www.binarytides.com/python-packet-sniffer-code-linux/
+#Convert a string of 6 characters of ethernet address into a dash separated hex string
+def eth_addr (a) :
+  b = "%.2x:%.2x:%.2x:%.2x:%.2x:%.2x" % (ord(a[0]) , ord(a[1]) , ord(a[2]), ord(a[3]), ord(a[4]) , ord(a[5]))
+  return b
+
 # *** START *** #
 ## Take in arguments ##
 if not (len(sys.argv) == 3):
@@ -21,41 +26,16 @@ with open(rulesFile) as f:
     rules = f.readlines() # read as list of lines
 f.close()
 
-#print (rules)
-
-#2. Packet -- Packet to examine
-# with open(packetFile, mode='rb') as f: 
-#     packet = f.read() # read as list of lines
-# f.close()
-
-# struct.unpack("iiiii", packet[:20])
-# struct.unpack("i" * ((len(packet) -24) // 4), packet[20:-4])
-# struct.unpack("i", packet[-4:])
-
-# with open(packetFile, "rb") as binaryfile :
-#     packet = bytearray(binaryfile.read())
-
-
-# bstr = packet.replace(' ', '')
-# packet = '%0*X' % ((len(packet) + 3) // 4, int(packet, 2))
-
-
-# binFile = open(packetFile,'rb')
-# binaryData = binFile.read(8)
-# packet=  binascii.hexlify(binaryData)
-
-# 	ip_header = packet[0:20]
-	
-# 	#now unpack them :)
-# 	iph = unpack('!BBHHHBBH4s4s' , ip_header)
-
-
 # Read in packet file
 with open(packetFile, mode='rb') as f: 
     packet = f.read() # read as list of lines
 f.close()
 
+# Parse the packet and populate variables
+
 ip_header = packet[0:20]
+
+#now unpack them :)
 iph = unpack('!BBHHHBBH4s4s' , ip_header)
 
 version_ihl = iph[0]
@@ -71,19 +51,61 @@ d_addr = socket.inet_ntoa(iph[9]);
 
 print 'Version : ' + str(version) + ' IP Header Length : ' + str(ihl) + ' TTL : ' + str(ttl) + ' Protocol : ' + str(protocol) + ' Source Address : ' + str(s_addr) + ' Destination Address : ' + str(d_addr)
 
-tcp_header = packet[iph_length:iph_length+20]
+#TCP protocol
+if protocol == 6 :
+    t = iph_length
+    tcp_header = packet[t:t+20]
 
-#now unpack them :)
-tcph = unpack('!HHLLBBHHH' , tcp_header)
+    #now unpack them :)
+    tcph = unpack('!HHLLBBHHH' , tcp_header)
+    
+    source_port = tcph[0]
+    dest_port = tcph[1]
+    sequence = tcph[2]
+    acknowledgement = tcph[3]
+    doff_reserved = tcph[4]
+    tcph_length = doff_reserved >> 4
+    
+    print 'Source Port : ' + str(source_port) + ' Dest Port : ' + str(dest_port) + ' Sequence Number : ' + str(sequence) + ' Acknowledgement : ' + str(acknowledgement) + ' TCP header length : ' + str(tcph_length)
+    
+    h_size = iph_length + tcph_length * 4
+    data_size = len(packet) - h_size
+    
+    #get data from the packet
+    data = packet[h_size:]
+    
+    print 'Data : ' + data
 
-source_port = tcph[0]
-dest_port = tcph[1]
-sequence = tcph[2]
-acknowledgement = tcph[3]
-doff_reserved = tcph[4]
-tcph_length = doff_reserved >> 4
+#UDP packets
+elif protocol == 17 :
+    u = iph_length 
+    udph_length = 8
+    udp_header = packet[u:u+8]
 
-print 'Source Port : ' + str(source_port) + ' Dest Port : ' + str(dest_port) + ' Sequence Number : ' + str(sequence) + ' Acknowledgement : ' + str(acknowledgement) + ' TCP header length : ' + str(tcph_length)
+    #now unpack them :)
+    udph = unpack('!HHHH' , udp_header)
+    
+    source_port = udph[0]
+    dest_port = udph[1]
+    length = udph[2]
+    checksum = udph[3]
+    
+    print 'Source Port : ' + str(source_port) + ' Dest Port : ' + str(dest_port) + ' Length : ' + str(length) + ' Checksum : ' + str(checksum)
+    
+    h_size = iph_length + udph_length
+    data_size = len(packet) - h_size
+    
+    #get data from the packet
+    data = packet[h_size:]
+    
+    print 'Data : ' + data
+
+#some other IP packet like IGMP
+else :
+    print 'Protocol other than TCP/UDP/ICMP'
+    
+print
+
 
 
 exit()
