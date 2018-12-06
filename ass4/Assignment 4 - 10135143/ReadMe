@@ -1,0 +1,8 @@
+Example Usage:
+
+python pfilter.py rules/rule1.txt packets/tcpPacket.dat -> allow
+
+python pfilter.py rules/rule10.txt packets/icmpPacket.dat -> unspecified
+
+
+
