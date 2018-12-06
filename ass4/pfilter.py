@@ -6,6 +6,7 @@ from struct import *
 
 # Packet reading from https://www.binarytides.com/python-packet-sniffer-code-linux/
 
+# Rule general form: [allow|deny] [tcp|udp] srcip:srcport -> dstip:dstport
 
 # *** START *** #
 ## Take in arguments ##
@@ -36,84 +37,66 @@ packetDestPort = ""
 
 # Parse the packet and populate variables
 ip_header = packet[0:20]
-
-#now unpack them :)
 iph = unpack('!BBHHHBBH4s4s' , ip_header)
-
 version_ihl = iph[0]
 version = version_ihl >> 4
 ihl = version_ihl & 0xF
-
 iph_length = ihl * 4
-
 ttl = iph[5]
 protocol = iph[6]
 s_addr = socket.inet_ntoa(iph[8]);
 d_addr = socket.inet_ntoa(iph[9]);
 
-# print 'Version : ' + str(version) + ' IP Header Length : ' + str(ihl) + ' TTL : ' + str(ttl) + ' Protocol : ' + str(protocol) + ' Source Address : ' + str(s_addr) + ' Destination Address : ' + str(d_addr)
+#print(s_addr, d_addr, protocol)
 
-#TCP protocol
+#TCP Protocol handler
 if protocol == 6 :
     t = iph_length
     tcp_header = packet[t:t+20]
-
-    #now unpack them :)
     tcph = unpack('!HHLLBBHHH' , tcp_header)
-    
     source_port = tcph[0]
     dest_port = tcph[1]
     sequence = tcph[2]
     acknowledgement = tcph[3]
     doff_reserved = tcph[4]
-    tcph_length = doff_reserved >> 4
-    
-    # print 'Source Port : ' + str(source_port) + ' Dest Port : ' + str(dest_port) + ' Sequence Number : ' + str(sequence) + ' Acknowledgement : ' + str(acknowledgement) + ' TCP header length : ' + str(tcph_length)
-    
+    tcph_length = doff_reserved >> 4    
     h_size = iph_length + tcph_length * 4
     data_size = len(packet) - h_size
     
+    # Populate TCP variable
     packetProtocol = "tcp"
     packetSourceIP = str(s_addr)
     packetSourcePort = str(source_port)
     packetDestIP = str(d_addr)
     packetDestPort = str(dest_port)
 
-#UDP packets
+#UDP Protocol handler
 elif protocol == 17 :
     u = iph_length 
     udph_length = 8
     udp_header = packet[u:u+8]
-
-    #now unpack them :)
-    udph = unpack('!HHHH' , udp_header)
-    
+    udph = unpack('!HHHH' , udp_header)  
     source_port = udph[0]
     dest_port = udph[1]
     length = udph[2]
     checksum = udph[3]
-    
-    # print 'Source Port : ' + str(source_port) + ' Dest Port : ' + str(dest_port) + ' Length : ' + str(length) + ' Checksum : ' + str(checksum)
-    
-    h_size = iph_length + udph_length
-    data_size = len(packet) - h_size
-    
+
+    # Populate UDP variable    
     packetProtocol = "udp"
     packetSourceIP = str(s_addr)
     packetSourcePort = str(source_port)
     packetDestIP = str(d_addr)
     packetDestPort = str(dest_port)
-
-
-# print("Protocol: " + packetProtocol)
-# print("sourceIP: " + packetSourceIP)
-# print("source Port: " + packetSourcePort)
-# print("destIP: " + packetDestIP)
-# print("destPort: " + packetDestPort + "\n\n")
+ 
+# Quit if not TCP or UDP
+else:
+    print("unspecified\n")
+    exit(0)
 
 ## Loop through each rule and match with packet ##
 for rule in rules:
-    # Spilt rule into sections
+
+    # Seperate rules and asign variable
     splitRules = rule.split()
 
     filterType = "unspecified"
@@ -130,15 +113,7 @@ for rule in rules:
     sourcePort = splitRules[2].split(":")[1]
     sourceIP = splitRules[2].split(":")[0]
 
-
-    # print("Filter Type: " + filterType)
-    # print("Protocol: " + protocol)
-    # print("sourceIP: " + sourceIP)
-    # print("source Port: " + sourcePort)
-    # print("destIP: " + destIP)
-    # print("destPort: " + destPort + "\n\n")
-
-    # Check if the Protocol matches (ie tcp == tcp)
+    # Check if the Protocol matches (ie tcp == tcp or udp == udp)
     if (protocol != packetProtocol):
         continue
     
@@ -155,7 +130,7 @@ for rule in rules:
     # check if srcPort matches 
     if (sourcePort != packetSourcePort):
         # check if port is wild card
-        if  "*" not in sourcePort:
+        if  ("*" not in sourcePort):
             continue
 
     # check if dstip matches 
@@ -171,7 +146,7 @@ for rule in rules:
     # Check if dstport matches
     if (destPort != packetDestPort):
         # check if port is wild card
-        if  "*" not in destPort:
+        if  ("*" not in destPort):
             continue
 
     # Perfect match: Handle Allow or Deny
@@ -182,5 +157,4 @@ for rule in rules:
 print("unspecified\n")
 exit(0)
 
-# [allow|deny] [tcp|udp] srcip:srcport -> dstip:dstport
 

@@ -1,10 +1,13 @@
 1. allow
-2. deney
+2. deny
 3. unspecified
 4. UDP
 5. TCP
-6. Wildcard port
-7. Wildcard IP
+6 - Not UDP or TCP
+6. Wildcard source port
+6. Wildcard dest port
+7. Wildcard source IP
+7. Wildcard dest IP
 8. No rules
 9. Bad Arguments
 10. Should stop as soon as it finds a match
