@@ -7,3 +7,4 @@
 7. Wildcard IP
 8. No rules
 9. Bad Arguments
+10. Should stop as soon as it finds a match
